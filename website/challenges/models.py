@@ -8,6 +8,7 @@ class Challenge(models.Model):
     description = models.TextField()
     fileNeeded = models.FileField(blank=True, null=True)
     resolved_by = models.ManyToManyField(User, blank=True)
+    flag = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title

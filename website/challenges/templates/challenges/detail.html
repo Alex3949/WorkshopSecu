@@ -1,0 +1,15 @@
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+{% endfor %}
+<h1> {{challenge.title}} </h1>
+<H2> Nombre de résolutions: </h2>
+{{challenge.numberOfResolutions}}
+<h2> description: </h2>
+<p>
+{{challenge.description}}
+</p>
+<form action="{% url 'flag' challenge.id %}", method="POST">
+    {% csrf_token %}
+    <label for="flag">Flag:</label><input type="text" id="flag" name="flag" autocomplete="off"/>
+    <input type="submit" value="Valider"/>
+</form>
