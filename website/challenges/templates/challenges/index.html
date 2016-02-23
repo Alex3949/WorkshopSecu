@@ -1,8 +1,9 @@
+{% load has_solved %}
 <h1> Hello </h1>
 
 <ul>
     {% for challenge in challenges_list %}
-    <li> {{challenge.title}} - {{challenge.numberOfResolutions}} </li>
+    <li> {%if user|has_solved:challenge %} V {% endif %} {{challenge.title}} - {{challenge.numberOfResolutions}} </li>
     {% endfor %}
 </ul>
 
