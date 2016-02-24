@@ -1,23 +1,69 @@
+{% extends "challenges/base.html" %}
+{% load bootstrap3 %}
 {% load has_solved %}
-{% for message in messages %}
-    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-{% endfor %}
-<h1> {{challenge.title}} </h1>
-{%if user|has_solved:challenge %} <h2>Résolu</h2> {% endif %}
-<H2> Nombre de résolutions: </h2>
-{{challenge.numberOfResolutions}}
+{% load markdown_deux_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="page-header">
+            <ol class="breadcrumb">
+                <li><a href="{% url 'index' %}">Liste challenges</a></li>
+            </ol>
+            <h1>{{challenge.title}} {%if user|has_solved:challenge %}<small>(résolu)</small>{% endif %}</h1>
+        </div>
+    </div>
+    <div class="row">
+        {{ challenge.description|markdown }}
+    </div>
+
+    <br/>
+
+    {% if challenge.fileNeeded %}
+    <div class="row">
+        Fichier: <a href={{challenge.fileNeeded.url}}>{{challenge.fileNeeded.name}}</a>
+    </div>
+
+    <br/>
+    {% endif %}
+
+    <div class="row">
+        <form action="{% url 'flag' challenge.id %}" method="POST" class="form-horizontal">
+            {% csrf_token %}
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-flag"></i></span>
+                <label for="flag" class="sr-only"></label>
+                <input type="text" id="flag" name="flag" autocomplete="off" class="form-control" placeholder="Flag"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Go!</button>
+                </span>
+            </div>
+        </form>
+    </div>
+
+    <br/>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Users ayant résolut ce challenge:</div>
+            <ul class="list-group">
+                {% for user in challenge.resolved_by.all %}
+                <li class="list-group-item"> {{user}} </li>
+                {% endfor %}
+            </ul>
+            <div class="panel-footer">Total: {{challenge.numberOfResolutions}}</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
 <h2> description: </h2>
 <p>
 {{challenge.description}}
 </p>
-<form action="{% url 'flag' challenge.id %}", method="POST">
-    {% csrf_token %}
-    <label for="flag">Flag:</label><input type="text" id="flag" name="flag" autocomplete="off"/>
-    <input type="submit" value="Valider"/>
-</form>
-<h2>Résolu par:</h2>
-<ul>
-    {% for user in challenge.resolved_by.all %}
-    <li> {{user}} </li>
-    {% endfor %}
-</ul>
