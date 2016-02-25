@@ -3,35 +3,31 @@
 {% load has_solved %}
 
 {% block content %}
-<div class="raw">
-    <div class="col-md-8 col-md-offset-2">
-        <div class="page-header">
-            <h1> <a href="//urlab.be">UrLab</a> Workshop security challenges</h1>
-        </div>
+<div class="page-header">
+    <h1> <a href="//urlab.be">UrLab</a> Workshop security challenges</h1>
+</div>
 
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">Liste des challenges</div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th class="col-md-1"> Validé </th>
-                        <th> Titre </th>
-                        <th class="col-md-1"> #Résolutions </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for challenge in challenges_list %}
-                    <tr>
-                        {%if user|has_solved:challenge %}<td class="success"><i class="fa fa-check"></i>{% else %}<td class="danger"><i class="fa fa-times"></i>{% endif %}</td>
-                            <td><a href={% url 'detail' challenge.id %}>{{challenge.title}}</a></td>
-                            <td>{{challenge.numberOfResolutions}} </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Liste des challenges</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-md-1"> Validé </th>
+                <th> Titre </th>
+                <th class="col-md-1"> #Résolutions </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for challenge in challenges_list %}
+            <tr>
+                {%if user|has_solved:challenge %}<td class="success"><i class="fa fa-check"></i>{% else %}<td class="danger"><i class="fa fa-times"></i>{% endif %}</td>
+                    <td><a href={% url 'detail' challenge.id %}>{{challenge.title}}</a></td>
+                    <td>{{challenge.numberOfResolutions}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
 
