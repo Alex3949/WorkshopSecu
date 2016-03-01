@@ -1,0 +1,4 @@
+shell1@challenge02:~$ sudo -l
+[...]
+User shell1 may run the following commands on this host:
+   (shell1cracked) /bin/cat /challenge/shell/shell1/shell1/*
